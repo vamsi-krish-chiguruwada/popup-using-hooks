@@ -3,6 +3,8 @@ import "./ErrorMessage.css";
 
 const ErrorMessage = (props) => {
   let [hoverd, setHoverd] = useState(false);
+
+  // alerts the id when open is clicked
   const showAlert = (id) => {
     alert(id);
   };
@@ -23,7 +25,7 @@ const ErrorMessage = (props) => {
       >
         <div className=" box box-top">
           <div className="icon-holder">
-            <span className="material-icons">control_camera</span>
+            <span className="material-icons">:)</span>
           </div>
           <div className="id-holder">
             <p className="error-content error-header">{props.name}</p>

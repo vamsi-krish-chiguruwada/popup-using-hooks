@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import "./Popup.css";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
 import { v4 as uuidv4 } from "uuid";
-
+import {ThemeContext} from "../../App";
 const Popup = (props) => {
   let [state, setState] = useState({
     erroes: [
@@ -44,6 +44,10 @@ const Popup = (props) => {
     ],
   });
 
+  const theme = useContext(ThemeContext);
+
+  // takes id as perameter and searches in list of objects and 
+  // returns the index of object that contains the id
   const customFindIndex = (per) => {
     console.log(per, "find index ids start");
 
@@ -53,16 +57,15 @@ const Popup = (props) => {
       }
     }
   };
-  const errorSelected = (id) => {
-    console.log(id, "updated ids start");
-    let objIndex = customFindIndex(id);
-    console.log(objIndex, "updated ids index");
 
+// function runs on clicking on checkbox and changes the  bool state is selected
+  const errorSelected = (id) => {
+    let objIndex = customFindIndex(id);
     let temp = [...state.erroes];
     temp[objIndex].selected = !temp[objIndex].selected;
     setState({ erroes: temp });
   };
-
+// allerts all the id's with selected sate as true 
   const showIds = () => {
     alert(state.erroes
       .map((per) => {
@@ -75,7 +78,8 @@ const Popup = (props) => {
 
   return (
     <div className="Popup-background">
-      <div className="popup">
+      {/* <p>"theme"{console.log(theme)}</p> */}
+        <div className="popup" style = {{backgroundColor:theme.background, color:theme.foreground}}>
         <p className="header">Validations</p>
         <div className="popup-inner-box">
           {state.erroes.map((err) => {
@@ -84,7 +88,6 @@ const Popup = (props) => {
                 {...err}
                 key={err.id}
                 errorSelected={errorSelected}
-                // bgColor={bgColor}
               />
             );
           })}

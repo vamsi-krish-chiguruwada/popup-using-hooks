@@ -1,18 +1,39 @@
 import React,{useState} from "react";
 import "./App.css";
 import Popup from "./Components/Popup/Popup";
-// import uuid from "uuid";
-// import { useState } from "react";
+
+
+export const ThemeContext = React.createContext();
+
+
 const App =()=> {
-  // state = {
-  //   showPopup: true
-  // };
-  let [showPopup,setShowPopup] = useState(true)
+
+  let [showPopup,setShowPopup] = useState(false)
+
+  let [theme,setTheme] = useState({
+    foreground: '#000000',
+    background: "#fffff",
+  });
+
+  
+  const themes = {default: {
+    foreground: '#000000',
+    background: "#fffff",
+  },light: {
+    foreground: '#000000',
+    background: '#eeeeee',
+  },dark: {
+    foreground: '#ffffff',
+    background: '#222222',
+  }}
+
+  // used to change bool state "showPopup" to display/hide the popup message
   const toglePopup = () => {
     setShowPopup(!showPopup);
-    // this.setState({ showPopup: !this.state.showPopup });
-
   };
+  const handleDropdownChanges = (e)=>{
+    setTheme(themes[e.target.value]);
+  }
     return (
       <div className="App">
         <button 
@@ -20,7 +41,22 @@ const App =()=> {
         >
           show
         </button>
-        {showPopup ? <Popup toglePopup = {toglePopup} /> : null}
+
+      <div className = "dropdown">
+        <label htmlFor="theme">Choose a theme:</label>
+
+        <select onChange = {(e)=>handleDropdownChanges(e)} name="theme" id="theme">
+        <option value="default">default</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+      </div>
+
+        {showPopup ?
+        <ThemeContext.Provider value = {theme}>
+         <Popup toglePopup = {toglePopup} />
+         </ThemeContext.Provider>
+          : null}
       </div>
     );
   
