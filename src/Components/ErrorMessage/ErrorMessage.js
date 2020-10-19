@@ -1,5 +1,6 @@
-import React, {useState}from "react";
+import React, {useState, useContext}from "react";
 import "./ErrorMessage.css";
+import {ErrorContext} from "../../App";
 
 const ErrorMessage = (props) => {
   let [hoverd, setHoverd] = useState(false);
@@ -8,9 +9,10 @@ const ErrorMessage = (props) => {
   const showAlert = (id) => {
     alert(id);
   };
+  const hoverColor = useContext(ErrorContext);
 
   return (
-    <div className="inputWraper">
+    <div className="inputWraper"  style = {{backgroundColor:hoverColor.background, color:hoverColor.foreground}}>
       <input
         onClick={() => props.errorSelected(props.id)}
         className="checkbox"
